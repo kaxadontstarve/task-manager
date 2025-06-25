@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TaskStorage {
     private static final String FILE_PATH = "tasks.txt";
-
+    //Завантажує список задач з файлу
     public List<Task> loadTasks() {
         List<Task> tasks = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
@@ -21,10 +21,12 @@ public class TaskStorage {
                     tasks.add(task);
                 }
             }
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+            // Якщо файл не знайдено або помилка, повертаємо порожній список
+        }
         return tasks;
     }
-
+    // Зберігає список завдань у файл
     public void saveTasks(List<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (Task task : tasks) {

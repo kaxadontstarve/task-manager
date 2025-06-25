@@ -7,9 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TaskManagerUI {
-    private final TaskManager taskManager;
-    private final DefaultListModel<String> taskListModel;
-    private final JList<String> taskList;
+    private final TaskManager taskManager;// Менеджер завдань (логіка)
+    private final DefaultListModel<String> taskListModel;// Модель для списку завдань у UI
+    private final JList<String> taskList;// Компонент списку завдань
 
     public TaskManagerUI() {
         taskManager = new TaskManager();
@@ -21,7 +21,7 @@ public class TaskManagerUI {
 
         JPanel panel = new JPanel(new BorderLayout());
 
-        // Верх: поле + кнопка добавить
+        // Верх: поле + кнопка додати
         JTextField inputField = new JTextField();
         JButton addButton = new JButton("Додати");
 
@@ -29,13 +29,13 @@ public class TaskManagerUI {
         topPanel.add(inputField, BorderLayout.CENTER);
         topPanel.add(addButton, BorderLayout.EAST);
 
-        // Центр: список задач
+        // Центр: перелік завдань
         taskListModel = new DefaultListModel<>();
         taskList = new JList<>(taskListModel);
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(taskList);
 
-        // Низ: кнопки управления
+        // Низ: кнопки управління
         JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
         JButton deleteButton = new JButton("Видалити");
         JButton toggleDoneButton = new JButton("Завершенно");
@@ -52,10 +52,10 @@ public class TaskManagerUI {
         frame.getContentPane().add(panel);
         frame.setVisible(true);
 
-        // Загрузить задачи
+        // Завантажити завдання
         loadTasks();
 
-        // Добавить задачу
+        // Додати завдання
         addButton.addActionListener(e -> {
             String text = inputField.getText().trim();
             if (!text.isEmpty()) {
@@ -65,7 +65,7 @@ public class TaskManagerUI {
             }
         });
 
-        // Удалить задачу
+        // Видалити завдання
         deleteButton.addActionListener(e -> {
             int index = taskList.getSelectedIndex();
             if (index != -1) {
@@ -74,7 +74,7 @@ public class TaskManagerUI {
             }
         });
 
-        // Переключить выполнено
+        // Переключити виконано
         toggleDoneButton.addActionListener(e -> {
             int index = taskList.getSelectedIndex();
             if (index != -1) {
@@ -83,7 +83,7 @@ public class TaskManagerUI {
             }
         });
 
-        // Редактировать
+        // Редагувати
         editButton.addActionListener(e -> {
             int index = taskList.getSelectedIndex();
             if (index != -1) {
@@ -96,13 +96,13 @@ public class TaskManagerUI {
             }
         });
     }
-
+    // Завантажити завдання до списку UI
     private void loadTasks() {
         for (Task task : taskManager.getTasks()) {
             taskListModel.addElement(task.toString());
         }
     }
-
+    // Оновити список UI (очистити та завантажити заново)
     private void refreshList() {
         taskListModel.clear();
         loadTasks();
